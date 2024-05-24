@@ -169,7 +169,7 @@ public class JDRegistroUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEnviarRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarRegistroActionPerformed
-        // TODO add your handling code here:
+        
         try {
             // Obtener datos de los campos
             String nombre = txtNombre.getText().trim();
@@ -228,12 +228,15 @@ public class JDRegistroUsuario extends javax.swing.JFrame {
                 return;
             }
 
-            // Crear el usuario
-            controlador.crearUsuario(nombre, correo, contrasenia, sexo, altura, peso);
-            JOptionPane.showMessageDialog(this, "Usuario creado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            // Cerrar la ventana actual después de crear el usuario
-            this.dispose();
-            
+            // Llamar al controlador para crear el usuario
+            if (controlador.crearUsuario(nombre, correo, contrasenia, sexo, altura, peso)) {
+                JOptionPane.showMessageDialog(this, "Usuario creado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                // Cerrar la ventana actual después de crear el usuario
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al crear el usuario. El correo electrónico ya está en uso.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al crear usuario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace(); // Imprimir la traza de la excepción en la consola para facilitar la depuración

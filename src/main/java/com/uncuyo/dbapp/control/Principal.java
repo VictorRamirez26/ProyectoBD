@@ -4,7 +4,7 @@
  */
 package com.uncuyo.dbapp.control;
 
-import com.uncuyo.dbapp.view.MainFrame;
+import com.uncuyo.dbapp.view.Login;
 
 /**
  *
@@ -12,7 +12,7 @@ import com.uncuyo.dbapp.view.MainFrame;
  */
 public class Principal {
     public static void main(String[] args) {
-        MainFrame mainFrame = new MainFrame();
+        Login mainFrame = new Login();
         mainFrame.setVisible(true);
         mainFrame.setLocationRelativeTo(null);
     }

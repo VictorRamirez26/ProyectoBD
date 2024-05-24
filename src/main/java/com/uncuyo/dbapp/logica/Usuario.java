@@ -116,6 +116,4 @@ public class Usuario implements Serializable{
         this.imc = imc;
     }
     
-  
-    
 }

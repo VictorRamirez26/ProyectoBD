@@ -38,6 +38,14 @@
         <artifactId>postgresql</artifactId>
         <version>42.2.19</version>
     </dependency>
+    
+    <dependency>
+        <groupId>org.mindrot</groupId>
+        <artifactId>jbcrypt</artifactId>
+        <version>0.4</version>
+      <type>jar</type>
+    </dependency>
+
 
 </dependencies>
 
@@ -54,5 +62,5 @@
      </plugin>
     </plugins>
 </build>
-
+    <name>ProyectoBD</name>
 </project>

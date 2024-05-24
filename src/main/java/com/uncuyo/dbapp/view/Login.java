@@ -5,17 +5,18 @@
 package com.uncuyo.dbapp.view;
 
 import com.uncuyo.dbapp.logica.Controlador;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author victo
  */
-public class MainFrame extends javax.swing.JFrame {
+public class Login extends javax.swing.JFrame {
     
     /**
      * Creates new form MainFrame
      */
-    public MainFrame() {
+    public Login() {
         initComponents();
         controlador = new Controlador();
         jdru = new JDRegistroUsuario();
@@ -101,7 +102,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(122, 122, 122))
+                .addGap(139, 139, 139))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,7 +150,13 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         String correo = txtEmail.getText();
         String contrasenia = new String(txtContrasenia.getPassword());
-        System.out.println(controlador.verificarUsuario(correo, contrasenia));
+        if (controlador.verificarUsuario(correo, contrasenia)){
+            dashBoard = new DashBoard();
+            dashBoard.setUsuario(correo);
+            dashBoard.setVisible(true);
+        }else {
+            JOptionPane.showMessageDialog(this, "Contraseña incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         
     }//GEN-LAST:event_btnEnviarActionPerformed
 
@@ -164,6 +171,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private Controlador controlador;
     private JDRegistroUsuario jdru;
+    private DashBoard dashBoard;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviar;
     private javax.swing.JButton btnRegistrarse;

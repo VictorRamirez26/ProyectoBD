@@ -23,9 +23,21 @@ public class ControladorPersistencia {
         return usuarios;
     }
     
+    public Usuario findUserByCorreo(String correo){
+        userDao = new UsuarioDAOImp();
+        Usuario usuario = userDao.findByCorreo(correo);
+        return usuario;
+    }
+    
     public void crearUsuario(Usuario usuario){
         userDao = new UsuarioDAOImp();
         userDao.insertar(usuario);
     }
     
+    public List<RegistroComida> getRegistroComidas(Usuario usuario){
+    
+        registroDao = new RegistroComidaDAO();
+        List<RegistroComida> registros = registroDao.findRegistros(usuario.getId());
+        return registros;
+    }
 }

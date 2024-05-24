@@ -88,4 +88,16 @@ public class RegistroComidaDAO implements DAO<RegistroComida>{
         }
         return resultados.get(0);
     }    
+    
+    public List<RegistroComida> findRegistros(Long id) {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<RegistroComida> query = em.createQuery("SELECT r FROM RegistroComida r WHERE r.usuario.id = :id", RegistroComida.class);
+        query.setParameter("id", id);
+        List<RegistroComida> resultados = query.getResultList();
+        if (resultados.isEmpty()) {
+            return null;
+        }
+        return resultados;
+    }
+    
 }
