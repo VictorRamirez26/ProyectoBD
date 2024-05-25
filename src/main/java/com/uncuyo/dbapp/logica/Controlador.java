@@ -29,6 +29,12 @@ public class Controlador {
         return false;
     }
     
+    public boolean findUser(String correo){
+    
+        Usuario user = controladorPersistencia.findUserByCorreo(correo);
+        return user != null;
+    }
+    
     public boolean crearUsuario(String nombre, String correo, String contrasenia, Character sexo, Double altura, Double peso) {
         // Validar si el correo ya existe
         List<Usuario> listaUsuarios = controladorPersistencia.findUsers();
@@ -46,6 +52,21 @@ public class Controlador {
         return true;
     }
 
+    public String crearComida(String nombre, String descripcion, String calorias, String grasas, String proteinas) throws IllegalArgumentException {
+
+        String mensaje = verificarComida(nombre, descripcion, calorias, grasas, proteinas);
+        if (!mensaje.equals("Datos correctos")){
+            throw new IllegalArgumentException(mensaje);
+        }
+
+        Double total_calorias = Double.parseDouble(calorias);
+        Double total_grasas = Double.parseDouble(grasas);
+        Double total_proteinas = Double.parseDouble(proteinas);
+        Comida comida = new Comida(nombre , descripcion , total_calorias , total_grasas , total_proteinas);
+        controladorPersistencia.crearComida(comida);
+        return "Comida creada correctamente";
+    }
+    
     public List<RegistroComida> getRegistroComidas(String correo){
         
         Usuario usuario = controladorPersistencia.findUserByCorreo(correo);
@@ -53,4 +74,40 @@ public class Controlador {
         List<RegistroComida> registros = controladorPersistencia.getRegistroComidas(usuario);
         return registros;
     }
+    
+    public String verificarComida(String nombre, String descripcion, String calorias, String grasas, String proteinas) {
+        try {
+            if (nombre.isEmpty()) {
+                return "Ingrese el nombre de la comida";
+            }
+
+            if (descripcion.isEmpty()) {
+                return "Ingrese una descripción";
+            }
+
+            validarNumeroPositivo(calorias, "calorías");
+            validarNumeroPositivo(grasas, "grasas");
+            validarNumeroPositivo(proteinas, "proteínas");
+
+            return "Datos correctos";
+
+        } catch (IllegalArgumentException e) {
+            return e.getMessage();
+        }
+    }
+
+    private void validarNumeroPositivo(String valor, String nombreCampo) {
+        try {
+            Double valorDouble = Double.parseDouble(valor);
+            if (valorDouble <= 0) {
+                throw new IllegalArgumentException("Las " + nombreCampo + " deben ser mayores a cero.");
+            }
+        } catch (NumberFormatException ex) {
+            throw new IllegalArgumentException("Por favor , ingrese un valor para " + nombreCampo + ".");
+        }
+    }
+    
+    
+    
+    
 }

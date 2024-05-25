@@ -34,10 +34,15 @@ public class ControladorPersistencia {
         userDao.insertar(usuario);
     }
     
+    public void crearComida(Comida comida){
+        comidaDao = new ComidaDAOImp();
+        comidaDao.insertar(comida);
+    }
+    
     public List<RegistroComida> getRegistroComidas(Usuario usuario){
     
         registroDao = new RegistroComidaDAO();
         List<RegistroComida> registros = registroDao.findRegistros(usuario.getId());
         return registros;
-    }
+    }  
 }
