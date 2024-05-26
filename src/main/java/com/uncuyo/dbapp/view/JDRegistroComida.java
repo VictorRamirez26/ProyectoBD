@@ -4,6 +4,16 @@
  */
 package com.uncuyo.dbapp.view;
 
+import com.uncuyo.dbapp.logica.Comida;
+import com.uncuyo.dbapp.logica.Controlador;
+import com.uncuyo.dbapp.logica.Usuario;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author victo
@@ -16,6 +26,8 @@ public class JDRegistroComida extends javax.swing.JFrame {
     public JDRegistroComida() {
         initComponents();
         nuevaComida = new JDComida();
+        controlador = new Controlador();  
+        iniciarItems();
     }
 
     /**
@@ -51,7 +63,11 @@ public class JDRegistroComida extends javax.swing.JFrame {
 
         jLabel3.setText("Comida:");
 
-        jComboBoxComidas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxComidas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBoxComidasMouseClicked(evt);
+            }
+        });
         jComboBoxComidas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxComidasActionPerformed(evt);
@@ -67,13 +83,27 @@ public class JDRegistroComida extends javax.swing.JFrame {
 
         btnCancelar.setBackground(new java.awt.Color(204, 204, 204));
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setBackground(new java.awt.Color(204, 204, 204));
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        jSpinnerHora.setModel(new javax.swing.SpinnerNumberModel(0, 0, 24, 1));
 
         jLabel2.setText("Hora:");
 
         jLabel4.setText("Minutos:");
+
+        jSpinnerMinutos.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -129,9 +159,9 @@ public class JDRegistroComida extends javax.swing.JFrame {
                     .addComponent(jComboBoxComidas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregar))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancelar)
-                    .addComponent(btnGuardar))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnGuardar)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -156,16 +186,100 @@ public class JDRegistroComida extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBoxComidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxComidasActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:     
     }//GEN-LAST:event_jComboBoxComidasActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
         nuevaComida.setVisible(true);
         nuevaComida.setLocationRelativeTo(null);
+        nuevaComida.setRegistro(this);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        try {
+            // Obtener y validar la fecha
+            Date date = jDateChooser1.getDate();
+            if (date == null) {
+                JOptionPane.showMessageDialog(this, "Por favor, seleccione una fecha.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            LocalDate fecha = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            // Obtener y validar la hora
+            int hora = (int) jSpinnerHora.getValue();
+
+            // Obtener y validar los minutos
+            int minutos = (int) jSpinnerMinutos.getValue();
+
+            // Obtener y validar el nombre de la comida
+            String nombre_comida = (String) jComboBoxComidas.getSelectedItem();
+            if (nombre_comida == null || nombre_comida.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Por favor, seleccione una comida.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Obtener usuario y comida
+            Usuario usuario = controlador.getUsuario(correoUsuario);
+
+            Comida comida = controlador.getComida(nombre_comida);
+
+            // Crear LocalTime a partir de hora y minutos
+            LocalTime tiempo = LocalTime.of(hora, minutos);
+            // Crear el registro
+            controlador.crearRegistro(fecha, tiempo, usuario, comida);
+            dashBoard.añadirRegistro(fecha , tiempo ,comida);
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Registro creado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ocurrió un error al crear el registro: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void jComboBoxComidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxComidasMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxComidasMouseClicked
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    public void iniciarItems(){
+        List<Comida> lista_comidas = controlador.getListComidas();
+        
+        if (lista_comidas.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Debes agregar una comida", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        mostrarComidas(lista_comidas);   
+    }
+    
+    private void mostrarComidas(List<Comida> lista_comidas){
+        for (Comida comida : lista_comidas){
+            jComboBoxComidas.addItem(comida.getNombre());
+        }
+    }
+    
+    public void setUser(String correo){
+        this.correoUsuario = correo;
+    }
+    
+    public void resetJComboBox(){
+        jComboBoxComidas.removeAllItems();
+    }
+    
+    public void setDashBoard(DashBoard dashBoard){
+        this.dashBoard = dashBoard;
+    }
+    
+    
+    
     private JDComida nuevaComida;
+    private Controlador controlador;
+    private String correoUsuario;
+    private DashBoard dashBoard;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnCancelar;

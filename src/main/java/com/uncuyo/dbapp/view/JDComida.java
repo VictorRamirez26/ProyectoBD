@@ -155,13 +155,20 @@ public class JDComida extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, mensaje, "Éxito", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
+            registroComida.resetJComboBox();
+            registroComida.iniciarItems();
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     
     }//GEN-LAST:event_btnCrearComidaActionPerformed
    
+    public void setRegistro(JDRegistroComida venta_registro){
+        this.registroComida = venta_registro;
+    }
+    
     private Controlador controlador;
+    private JDRegistroComida registroComida;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearComida;
     private javax.swing.JLabel jLabel1;

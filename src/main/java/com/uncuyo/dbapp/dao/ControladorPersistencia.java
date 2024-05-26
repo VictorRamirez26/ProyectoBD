@@ -45,4 +45,22 @@ public class ControladorPersistencia {
         List<RegistroComida> registros = registroDao.findRegistros(usuario.getId());
         return registros;
     }  
+    
+    public List<Comida> getListComidas(){
+    
+        comidaDao = new ComidaDAOImp();
+        return comidaDao.getListComidas();
+    }
+    
+    public Comida getComida(String nombre){
+        comidaDao = new ComidaDAOImp();
+        return comidaDao.findByName(nombre);
+    }
+    
+    public void crearRegistro(RegistroComida registroComida){
+    
+        registroDao = new RegistroComidaDAO();
+        registroDao.insertar(registroComida);
+    }
+    
 }

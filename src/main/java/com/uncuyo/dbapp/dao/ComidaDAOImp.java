@@ -86,7 +86,14 @@ public class ComidaDAOImp implements DAO<Comida> {
         return resultados.get(0);
     }
    
+    public List<Comida> getListComidas(){
     
-    
-    
+        EntityManager em = getEntityManager();
+        TypedQuery<Comida> query = em.createQuery("SELECT c FROM Comida c",Comida.class);
+        List<Comida> resultados = query.getResultList();
+        if (resultados.isEmpty()){
+            return null;
+        }
+        return resultados;
+    }
 }

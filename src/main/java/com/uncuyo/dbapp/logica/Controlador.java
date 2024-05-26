@@ -1,6 +1,8 @@
 package com.uncuyo.dbapp.logica;
 
 import com.uncuyo.dbapp.dao.ControladorPersistencia;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -33,6 +35,30 @@ public class Controlador {
     
         Usuario user = controladorPersistencia.findUserByCorreo(correo);
         return user != null;
+    }
+    
+    public Long findIdUser(String correo){
+        Usuario user = controladorPersistencia.findUserByCorreo(correo);
+        return user.getId();
+    }
+    
+    public Usuario getUsuario(String correo){
+        Usuario user = controladorPersistencia.findUserByCorreo(correo);
+        return user;
+    }
+    
+    public Comida getComida(String nombre){
+        Comida comida = controladorPersistencia.getComida(nombre);
+        return comida;
+    }
+    
+    public Long getIdComida(String nombre){
+        Comida comida = controladorPersistencia.getComida(nombre);
+        return comida.getId();
+    }
+    
+    public List<Comida> getListComidas(){
+        return controladorPersistencia.getListComidas();
     }
     
     public boolean crearUsuario(String nombre, String correo, String contrasenia, Character sexo, Double altura, Double peso) {
@@ -70,7 +96,7 @@ public class Controlador {
     public List<RegistroComida> getRegistroComidas(String correo){
         
         Usuario usuario = controladorPersistencia.findUserByCorreo(correo);
-                
+        System.out.println(usuario.getNombre());
         List<RegistroComida> registros = controladorPersistencia.getRegistroComidas(usuario);
         return registros;
     }
@@ -107,7 +133,15 @@ public class Controlador {
         }
     }
     
-    
+    public void crearRegistro(LocalDate fecha , LocalTime hora , Usuario usuario, Comida comida){
+        RegistroComida registroComida = new RegistroComida(fecha, hora, usuario, comida);
+        try {
+            controladorPersistencia.crearRegistro(registroComida);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error inesperado");
+        }
+       
+    }
     
     
 }
