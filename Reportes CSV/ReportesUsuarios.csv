@@ -1,0 +1,9 @@
+Nombre,Correo,Contraseña,Sexo,Altura,Peso Actual
+Joaquin,joaquin@gmail.com,$2a$10$dGgLpeTaZ7F9f5D8scW2zef/sye/67PO.fpw6MIRIJRZpEOi5lzz.,H,1.82,80.0
+Victor Ramirez,victor@gmail.com,$2a$10$CiCfKeOLb6.FJPD1e4fYaOQ8.VAw.jhwAWUvJCFm/w6kuHSozZeBK,H,1.82,90.0
+Leonardo Corvalan Andres Camperos,leonardo.corvalan16@gmail.com,$2a$10$GRv7uBdGsWdXHsR3Sc/.7.DXg6M8Q8BqK7M1FD7xa8PtxwpfmaKMK,H,1.77,80.0
+Wilmer Antonio,wilmer@gmail.com,$2a$10$Li8Ov5JWiTBS.rsS.bnfzuS.3gS0ddIi23fpGBAxFC.JEeLzDwc8S,H,1.79,80.0
+Victor,admin@gmail.com,$2a$10$3G6AH8n02ymmeGpV8KcejOKzzOyr5dsmoSfujnE5SxnZM.7exehYK,H,1.82,72.0
+Juan Perez,juan.perez@example.com,$2a$10$VZxk4MUQKlPoMcKgYOGrv.aPnCIJ0FM/hPLEuRZXgkDAkgUQ3tlc6,H,1.75,70.5
+Maria Gomez,maria.gomez@example.com,$2a$10$z1sBFAyherhTg9.5ndojbeMDcbpK/ibtZUTkymYDiqOZ/oScojFzS,M,1.65,60.0
+Carlos Sanchez,carlos.sanchez@example.com,$2a$10$z3DyOJif6vmQka7NPyRcQ.owVhGHngYEdEwYfmWUcclfH2uKE3V3q,H,1.8,85.0

@@ -1,3 +1,4 @@
+C:\Users\victo\Desktop\ProyectoBD\src\main\java\com\uncuyo\dbapp\logica\BackUp.java
 C:\Users\victo\Desktop\ProyectoBD\src\main\java\com\uncuyo\dbapp\control\Principal.java
 C:\Users\victo\Desktop\ProyectoBD\src\main\java\com\uncuyo\dbapp\dao\UsuarioDAOImp.java
 C:\Users\victo\Desktop\ProyectoBD\src\main\java\com\uncuyo\dbapp\logica\Usuario.java
@@ -11,5 +12,7 @@ C:\Users\victo\Desktop\ProyectoBD\src\main\java\com\uncuyo\dbapp\logica\Registro
 C:\Users\victo\Desktop\ProyectoBD\src\main\java\com\uncuyo\dbapp\logica\Comida.java
 C:\Users\victo\Desktop\ProyectoBD\src\main\java\com\uncuyo\dbapp\dao\ComidaDAOImp.java
 C:\Users\victo\Desktop\ProyectoBD\src\main\java\com\uncuyo\dbapp\dao\RegistroComidaDAO.java
+C:\Users\victo\Desktop\ProyectoBD\src\main\java\com\uncuyo\dbapp\logica\Reportes.java
+C:\Users\victo\Desktop\ProyectoBD\src\main\java\com\uncuyo\dbapp\view\Administrador.java
 C:\Users\victo\Desktop\ProyectoBD\src\main\java\com\uncuyo\dbapp\view\JDRegistroUsuario.java
 C:\Users\victo\Desktop\ProyectoBD\src\main\java\com\uncuyo\dbapp\view\Login.java

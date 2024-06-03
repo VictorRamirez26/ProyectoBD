@@ -29,14 +29,46 @@ public class ControladorPersistencia {
         return usuario;
     }
     
+    public Usuario getAdministrador(){
+        userDao = new UsuarioDAOImp();
+        Usuario usuarioAdmin = userDao.findCorreoAdmin();  
+        return usuarioAdmin;
+    }
+    
+    public List<RegistroComida> getListaRegistros(){
+        registroDao = new RegistroComidaDAO();
+        return registroDao.getListaRegistros();
+    }
+    
     public void crearUsuario(Usuario usuario){
         userDao = new UsuarioDAOImp();
         userDao.insertar(usuario);
     }
     
+    public void modificarUsuario(Usuario usuario){
+        userDao = new UsuarioDAOImp();
+        userDao.modificar(usuario);
+    }
+    
+    public List<Usuario> getListaUsuarios(){
+        userDao = new UsuarioDAOImp();
+        return userDao.getListaUsuarios();
+    }
+    
+    
     public void crearComida(Comida comida){
         comidaDao = new ComidaDAOImp();
         comidaDao.insertar(comida);
+    }
+    
+    public Comida buscarComidaPorId(Long idComida){
+        comidaDao = new ComidaDAOImp();
+        return comidaDao.findById(idComida);
+    }
+    
+    public void actualizarComida(Comida comida){
+        comidaDao = new ComidaDAOImp();
+        comidaDao.actualizarComida(comida);
     }
     
     public List<RegistroComida> getRegistroComidas(Usuario usuario){
@@ -61,6 +93,22 @@ public class ControladorPersistencia {
     
         registroDao = new RegistroComidaDAO();
         registroDao.insertar(registroComida);
+    }
+    
+    public RegistroComida buscarRegistroExistente(LocalDate fecha , LocalTime tiempo , Long id_comida,Long id_usuario){
+        registroDao = new RegistroComidaDAO();
+        RegistroComida rc = registroDao.buscarRegistroExistente(fecha,tiempo,id_comida,id_usuario);
+        return rc;
+    }
+    
+    public void eliminarRegistro(RegistroComida rc){
+        registroDao = new RegistroComidaDAO();
+        registroDao.eliminar(rc);
+    }
+    
+    public void eliminarUsuario(Usuario usuario){
+        userDao = new UsuarioDAOImp();
+        userDao.eliminar(usuario);
     }
     
 }

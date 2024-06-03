@@ -65,7 +65,8 @@ public class RegistroComidaDAO implements DAO<RegistroComida>{
         try {
             em.getTransaction().begin();
 
-            RegistroComida registroComida = findByDate(registro.getFecha() , registro.getHora());
+            // Buscar la entidad gestionada
+            RegistroComida registroComida = em.find(RegistroComida.class, registro.getId());
             if (registroComida != null) {
                 em.remove(registroComida);
                 em.getTransaction().commit();
@@ -76,7 +77,7 @@ public class RegistroComidaDAO implements DAO<RegistroComida>{
             em.close();
         }
     }
-
+    
     public RegistroComida findByDate(LocalDate fecha , LocalTime hora) {
         EntityManager em = emf.createEntityManager();
         TypedQuery<RegistroComida> query = em.createQuery("SELECT r FROM RegistroComida r WHERE r.fecha = :fecha AND r.hora = :hora", RegistroComida.class);
@@ -98,6 +99,33 @@ public class RegistroComidaDAO implements DAO<RegistroComida>{
             return null;
         }
         return resultados;
+    }
+    
+    public RegistroComida buscarRegistroExistente(LocalDate fecha , LocalTime tiempo , Long id_comida , Long id_usuario){
+        
+        EntityManager em = emf.createEntityManager();
+        String consulta = "SELECT r FROM RegistroComida r WHERE r.fecha = :fecha AND r.hora = :tiempo AND r.comida.id = :id_comida AND r.usuario.id = :id_usuario";
+        TypedQuery<RegistroComida> query = em.createQuery(consulta , RegistroComida.class);
+        query.setParameter("fecha",fecha);
+        query.setParameter("tiempo",tiempo);
+        query.setParameter("id_comida",id_comida);
+        query.setParameter("id_usuario", id_usuario);
+        List<RegistroComida> resultados = query.getResultList();
+        if (resultados.isEmpty()) {
+            return null;
+        }
+        return resultados.get(0);  
+    }
+    
+    public List<RegistroComida> getListaRegistros(){
+        EntityManager em = emf.createEntityManager();
+        String consulta = "SELECT r FROM RegistroComida r";
+        TypedQuery<RegistroComida> query = em.createQuery(consulta , RegistroComida.class);
+        List<RegistroComida> resultados = query.getResultList();
+        if (resultados.isEmpty()) {
+            return null;
+        }
+        return resultados;      
     }
     
 }

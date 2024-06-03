@@ -20,6 +20,7 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         controlador = new Controlador();
         jdru = new JDRegistroUsuario();
+        admin = new Administrador();
     }
 
     /**
@@ -43,6 +44,8 @@ public class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Iniciar Sesión");
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
         jLabel1.setText("INICIAR SESIÓN");
 
@@ -64,7 +67,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        btnEnviar.setBackground(new java.awt.Color(204, 204, 204));
         btnEnviar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEnviar.setText("Entrar");
         btnEnviar.addActionListener(new java.awt.event.ActionListener() {
@@ -73,7 +75,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        btnRegistrarse.setBackground(new java.awt.Color(204, 204, 204));
         btnRegistrarse.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnRegistrarse.setText("Registrarse");
         btnRegistrarse.addActionListener(new java.awt.event.ActionListener() {
@@ -123,7 +124,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEnviar)
                     .addComponent(btnRegistrarse))
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -157,9 +158,18 @@ public class Login extends javax.swing.JFrame {
         }
         
         String contrasenia = new String(txtContrasenia.getPassword());
+        if (controlador.verificarAdministrador(correo,contrasenia)){
+            System.out.println(correo +" "+ contrasenia);
+            admin.setVisible(true);
+            admin.setLocationRelativeTo(null);
+            this.dispose();
+            return;
+        }
+        
         if (controlador.verificarUsuario(correo, contrasenia)){
             dashBoard = new DashBoard();
             dashBoard.setUsuario(correo);
+            dashBoard.setContrasenia(contrasenia);
             dashBoard.setVisible(true);
             dashBoard.setLocationRelativeTo(null);
             this.dispose();
@@ -181,6 +191,7 @@ public class Login extends javax.swing.JFrame {
     private Controlador controlador;
     private JDRegistroUsuario jdru;
     private DashBoard dashBoard;
+    private Administrador admin;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviar;
     private javax.swing.JButton btnRegistrarse;

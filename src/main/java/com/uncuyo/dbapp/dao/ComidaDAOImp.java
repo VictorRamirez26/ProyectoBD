@@ -74,7 +74,27 @@ public class ComidaDAOImp implements DAO<Comida> {
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-
+    
+    public Comida findById(Long idComida) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.find(Comida.class, idComida);
+        } finally {
+            em.close();
+        }
+    }
+    
+    public void actualizarComida(Comida comida) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.merge(comida);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+    
     public Comida findByName(String nombre) {
         EntityManager em = getEntityManager();
         TypedQuery<Comida> query = em.createQuery("SELECT c FROM Comida c WHERE c.nombre = :nombre", Comida.class);
@@ -86,7 +106,7 @@ public class ComidaDAOImp implements DAO<Comida> {
         return resultados.get(0);
     }
    
-    public List<Comida> getListComidas(){
+    public List<Comida> getListComidas(){ 
     
         EntityManager em = getEntityManager();
         TypedQuery<Comida> query = em.createQuery("SELECT c FROM Comida c",Comida.class);

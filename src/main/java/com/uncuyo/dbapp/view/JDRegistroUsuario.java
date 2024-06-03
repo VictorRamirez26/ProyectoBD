@@ -50,6 +50,7 @@ public class JDRegistroUsuario extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registro de Usuario");
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -66,7 +67,6 @@ public class JDRegistroUsuario extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Nombre:");
 
-        btnEnviarRegistro.setBackground(new java.awt.Color(204, 204, 204));
         btnEnviarRegistro.setText("Enviar");
         btnEnviarRegistro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,6 +77,7 @@ public class JDRegistroUsuario extends javax.swing.JFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("Sexo:");
 
+        btnHombre.setBackground(new java.awt.Color(255, 255, 255));
         botonesSexo.add(btnHombre);
         btnHombre.setText("Hombre");
         btnHombre.addActionListener(new java.awt.event.ActionListener() {
@@ -85,6 +86,7 @@ public class JDRegistroUsuario extends javax.swing.JFrame {
             }
         });
 
+        btnMujer.setBackground(new java.awt.Color(255, 255, 255));
         botonesSexo.add(btnMujer);
         btnMujer.setText("Mujer");
 
@@ -99,28 +101,33 @@ public class JDRegistroUsuario extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtEmail)
+                            .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNombre)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
                             .addComponent(txtAltura)
                             .addComponent(txtPeso)
-                            .addComponent(txtEmail)
-                            .addComponent(txtContrasenia, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
                                 .addComponent(btnHombre)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnMujer)))))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -137,7 +144,7 @@ public class JDRegistroUsuario extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(btnHombre)
                     .addComponent(btnMujer))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -147,7 +154,7 @@ public class JDRegistroUsuario extends javax.swing.JFrame {
                     .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnEnviarRegistro)
-                .addGap(20, 20, 20))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -160,9 +167,7 @@ public class JDRegistroUsuario extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 14, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -227,6 +232,14 @@ public class JDRegistroUsuario extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Su contraseña debe tener mas de seis caracteres", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            
+            if (modificar){
+                controlador.modificarUsuario(nombre, correo, contrasenia, sexo, altura, peso);
+                JOptionPane.showMessageDialog(this, "Usuario modificado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                limpiarCampos();
+                this.dispose();
+                return;
+            }
 
             // Llamar al controlador para crear el usuario
             if (controlador.crearUsuario(nombre, correo, contrasenia, sexo, altura, peso)) {
@@ -251,6 +264,22 @@ public class JDRegistroUsuario extends javax.swing.JFrame {
         txtPeso.setText("");
         txtEmail.setText("");
         botonesSexo.clearSelection();
+        modificar = false;
+    }
+    
+    public void setCampos(boolean modificar ,String nombre , Double altura, Double peso , Character sexo , String correo , String contrasenia){
+        this.modificar = modificar;
+        txtNombre.setText(nombre);
+        txtAltura.setText(Double.toString(altura));
+        txtPeso.setText(Double.toString(peso));
+        if (sexo.equals('H')){
+            btnHombre.setSelected(true);
+        }else {
+            btnMujer.setSelected(true);
+        }
+        txtEmail.setText(correo);
+        txtContrasenia.setText(contrasenia);
+        txtEmail.setEnabled(false);
     }
     
     
@@ -259,6 +288,7 @@ public class JDRegistroUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHombreActionPerformed
 
     private Controlador controlador;
+    private boolean modificar;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup botonesSexo;
     private javax.swing.JButton btnEnviarRegistro;

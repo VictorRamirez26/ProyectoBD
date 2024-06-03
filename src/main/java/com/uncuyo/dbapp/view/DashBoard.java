@@ -4,13 +4,19 @@
  */
 package com.uncuyo.dbapp.view;
 
+import com.itextpdf.text.DocumentException;
 import com.uncuyo.dbapp.logica.Comida;
 import com.uncuyo.dbapp.logica.Controlador;
 import com.uncuyo.dbapp.logica.RegistroComida;
 import com.uncuyo.dbapp.logica.Usuario;
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -26,6 +32,7 @@ public class DashBoard extends javax.swing.JFrame {
         initComponents();
         controlador = new Controlador();
         registroComida = new JDRegistroComida();
+        registroUsuario = new JDRegistroUsuario();
     }
 
     /**
@@ -44,6 +51,11 @@ public class DashBoard extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        btnModificarUsuario = new javax.swing.JButton();
+        btnBorrarUsuario = new javax.swing.JButton();
+        btnExportar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -54,7 +66,7 @@ public class DashBoard extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel1.setText("Registro de comidas");
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -74,6 +86,11 @@ public class DashBoard extends javax.swing.JFrame {
         });
 
         btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -82,69 +99,90 @@ public class DashBoard extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Mis datos");
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Registro");
+
+        btnModificarUsuario.setText("Modificar");
+        btnModificarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarUsuarioActionPerformed(evt);
+            }
+        });
+
+        btnBorrarUsuario.setText("Borrar cuenta");
+        btnBorrarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarUsuarioActionPerformed(evt);
+            }
+        });
+
+        btnExportar.setText("Exportar a PDF");
+        btnExportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAñadir, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnExportar, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAñadir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnModificarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBorrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnAñadir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnModificar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEliminar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSalir)
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addComponent(btnExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(btnModificarUsuario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnBorrarUsuario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSalir))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "N°", "Fecha", "Hora", "Comida", "Descripción"
+                "N°", "Fecha", "Hora", "Comida", "Descripción", "Calorías", "Grasas", "Proteínas"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -157,15 +195,27 @@ public class DashBoard extends javax.swing.JFrame {
         });
         jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jTable1.setGridColor(new java.awt.Color(204, 204, 204));
-        jTable1.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        jTable1.setSelectionBackground(new java.awt.Color(0, 150, 255));
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.setShowGrid(true);
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(8);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(30);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(30);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(0).setMinWidth(6);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(7);
+            jTable1.getColumnModel().getColumn(1).setMinWidth(19);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(20);
+            jTable1.getColumnModel().getColumn(2).setMinWidth(19);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(20);
+            jTable1.getColumnModel().getColumn(3).setMinWidth(43);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(45);
+            jTable1.getColumnModel().getColumn(4).setMinWidth(150);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(200);
+            jTable1.getColumnModel().getColumn(5).setMinWidth(22);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(25);
+            jTable1.getColumnModel().getColumn(6).setMinWidth(22);
+            jTable1.getColumnModel().getColumn(6).setPreferredWidth(25);
+            jTable1.getColumnModel().getColumn(7).setMinWidth(22);
+            jTable1.getColumnModel().getColumn(7).setPreferredWidth(25);
         }
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -178,7 +228,7 @@ public class DashBoard extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 44, Short.MAX_VALUE)
+            .addGap(0, 63, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -186,31 +236,26 @@ public class DashBoard extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 747, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(17, 17, 17))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 885, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -221,23 +266,11 @@ public class DashBoard extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
-        // TODO add your handling code here:
-        registroComida.setVisible(true);
-        registroComida.setLocationRelativeTo(null);
-        registroComida.setUser(correoUsuario);
-        registroComida.setDashBoard(this);
-    }//GEN-LAST:event_btnAñadirActionPerformed
-
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
@@ -246,10 +279,90 @@ public class DashBoard extends javax.swing.JFrame {
         login.setVisible(true);
         login.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        int rowSelected = jTable1.getSelectedRow();
+        if (rowSelected == -1){
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila para eliminar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        Vector<Object> rowData = getRowData(rowSelected);
+        controlador.eliminarRegistro(rowData,this.correoUsuario);
+        JOptionPane.showMessageDialog(this, "El registro se elimino correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        listaRegistroComidas = controlador.getRegistroComidas(this.correoUsuario);
+        mostrarRegistros(listaRegistroComidas);
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
+        // TODO add your handling code here:
+        registroComida.resetearDatos();
+        registroComida.setVisible(true);
+        registroComida.setLocationRelativeTo(null);
+        registroComida.setUser(correoUsuario);
+        registroComida.setDashBoard(this);
+    }//GEN-LAST:event_btnAñadirActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+        
+        int rowSelected = jTable1.getSelectedRow();
+        if (rowSelected == -1){
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila para poder modificar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        Vector<Object> rowData = getRowData(rowSelected);
+        registroComida.setUser(correoUsuario);
+        registroComida.setDashBoard(this);
+        registroComida.setValues(rowData);
+        registroComida.setVisible(true);
+        registroComida.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnModificarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarUsuarioActionPerformed
+        // TODO add your handling code here:
+        Usuario usuario = controlador.getUsuario(correoUsuario);
+        registroUsuario.setCampos(true , usuario.getNombre(),usuario.getAltura(),usuario.getPeso_actual(),usuario.getSexo(),usuario.getCorreo(),this.contrasenia);
+        registroUsuario.setVisible(true);
+        registroUsuario.setLocationRelativeTo(null);
+        //controlador.modificarUsuario(usuario); 
+        //CONTINUAR LA LOGICA PARA TERMINAR DE MODIFICAR EL USUARIO
+    }//GEN-LAST:event_btnModificarUsuarioActionPerformed
+
+    private void btnBorrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarUsuarioActionPerformed
+        // TODO add your handling code here:
+        Usuario usuario = controlador.getUsuario(correoUsuario);
+        listaRegistroComidas = controlador.getRegistroComidas(correoUsuario); 
+        controlador.eliminarUsuario(usuario , listaRegistroComidas);
+        login.setVisible(true);
+        login.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_btnBorrarUsuarioActionPerformed
+
+    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
+        // TODO add your handling code here:
+        listaRegistroComidas = controlador.getRegistroComidas(correoUsuario); 
+        try {
+            controlador.reporteRegistroComida(listaRegistroComidas);
+        } catch (DocumentException ex) {
+            Logger.getLogger(DashBoard.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DashBoard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnExportarActionPerformed
+    
+    private Vector<Object> getRowData(int rowSelected){
+        
+        Vector<Object> rowData = new Vector<>();
+        for (int column = 0; column < model.getColumnCount(); column++) {
+            rowData.add(model.getValueAt(rowSelected, column));
+        }
+        return rowData;
+    }
     
     public void setUsuario(String correo){
         correoUsuario = correo;
-        listaRegistroComidas = controlador.getRegistroComidas(correoUsuario); // ACA ESTA EL ERROR
+        listaRegistroComidas = controlador.getRegistroComidas(correoUsuario); 
         model = (DefaultTableModel) jTable1.getModel();
         System.out.println("El usuario inició correctamente");
         if (listaRegistroComidas != null){
@@ -257,34 +370,77 @@ public class DashBoard extends javax.swing.JFrame {
         }
         
     }
+    
+    public void setContrasenia(String contrasenia){
+        this.contrasenia = contrasenia;
+    }
+    
+    public void actualizarRegistros(){
+        listaRegistroComidas = controlador.getRegistroComidas(this.correoUsuario); 
+        mostrarRegistros(listaRegistroComidas);
+    }
 
-    public void mostrarRegistros(List<RegistroComida> registros){
+    public void mostrarRegistros(List<RegistroComida> registros) {
         // Limpia la tabla antes de agregar nuevos registros
         model.setRowCount(0);
 
-        for (RegistroComida rc : registros){
-            model.addRow(new Object[]{index, rc.getFecha(), rc.getHora(), rc.getComida().getNombre(), rc.getComida().getDescripcion()});
+        // Inicializa el índice
+        int index = 1;
+
+        // Itera sobre cada registro de comida
+        for (RegistroComida rc : registros) {
+            // Agrega una nueva fila a la tabla con los datos del registro de comida
+            model.addRow(new Object[]{
+                index,                          // Índice de la fila
+                rc.getFecha(),                  // Fecha del registro
+                rc.getHora(),                   // Hora del registro
+                rc.getComida().getNombre(),     // Nombre de la comida
+                rc.getComida().getDescripcion(),// Descripción de la comida
+                rc.getComida().getTotal_calorias(),  // Total de calorías de la comida
+                rc.getComida().getTotal_grasas(),    // Total de grasas de la comida
+                rc.getComida().getTotal_proteinas()  // Total de proteínas de la comida
+            });
+
+            // Incrementa el índice
             index++;
         }
     }
+
     
+    //Se usa solo cuando se agrega un registro nuevo
     public void añadirRegistro(LocalDate fecha , LocalTime tiempo , Comida comida){
-        model.addRow(new Object[]{index++, fecha, tiempo, comida.getNombre() , comida.getDescripcion()});
+        model.addRow(new Object[]{
+            index++,
+            fecha,
+            tiempo,
+            comida.getNombre(),
+            comida.getDescripcion(),
+            comida.getTotal_calorias(),
+            comida.getTotal_grasas(),
+            comida.getTotal_proteinas()
+        });
     }
     
     private Login login;
     private String correoUsuario;
+    private String contrasenia;
     private Controlador controlador;
     private List<RegistroComida> listaRegistroComidas;
     private JDRegistroComida registroComida;
     private DefaultTableModel model;
     private Integer index = 1;
+    private JDRegistroUsuario registroUsuario;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAñadir;
+    private javax.swing.JButton btnBorrarUsuario;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnExportar;
     private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnModificarUsuario;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

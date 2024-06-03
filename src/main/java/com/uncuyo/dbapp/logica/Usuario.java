@@ -112,8 +112,8 @@ public class Usuario implements Serializable{
         return imc;
     }
 
-    public void setImc(Double imc) {
-        this.imc = imc;
+    public void setImc() {
+        this.imc = (peso_actual)/(altura*altura);
     }
     
 }

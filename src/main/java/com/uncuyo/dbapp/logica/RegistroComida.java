@@ -77,6 +77,14 @@ public class RegistroComida implements Serializable {
     public void setComida(Comida comida) {
         this.comida = comida;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     
     
     

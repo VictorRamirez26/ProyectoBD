@@ -33,15 +33,8 @@ public class UsuarioDAOImp implements DAO<Usuario> {
         try {
             em.getTransaction().begin();
 
-            Usuario usuarioExistente = findByCorreo(usuario.getCorreo());
-
-            if (usuarioExistente != null){
-                // Modificar los datos del usuario existente
-                usuarioExistente.setNombre(usuario.getNombre());
-                usuarioExistente.setAltura(usuario.getAltura());
-                usuarioExistente.setContraseña(usuario.getContraseña());
-                usuarioExistente.setPeso_actual(usuario.getPeso_actual());
-                usuarioExistente.setImc(usuario.getImc());
+            if (usuario != null){
+                em.merge(usuario);
                 em.getTransaction().commit();
             } else {
                 System.out.println("No se encontró un usuario con el correo electrónico proporcionado.");
@@ -57,18 +50,25 @@ public class UsuarioDAOImp implements DAO<Usuario> {
         try {
             em.getTransaction().begin();
 
-            Usuario user = findByCorreo(usuario.getCorreo());
-            
-            if (user != null) {
-                em.remove(user);
+            // Recuperar la entidad gestionada por el EntityManager
+            Usuario managedUsuario = em.find(Usuario.class, usuario.getId());
+
+            if (managedUsuario != null) {
+                em.remove(managedUsuario);
                 em.getTransaction().commit();
             } else {
-                System.out.println("No se encontró un usuario con el correo electrónico proporcionado.");
+                System.out.println("No se encontró un usuario con el ID proporcionado.");
             }
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
         } finally {
             em.close();
         }
     }
+
 
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -91,6 +91,17 @@ public class UsuarioDAOImp implements DAO<Usuario> {
         return resultados.get(0);
     }
     
+    public Usuario findCorreoAdmin() {
+        EntityManager em = getEntityManager();
+        TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.correo = :correo", Usuario.class);
+        query.setParameter("correo", "admin@gmail.com");
+        List<Usuario> resultados = query.getResultList();
+        if (resultados.isEmpty()) {
+            return null; 
+        }
+        return resultados.get(0);
+    }
+    
     public List<Usuario> findUsers() {
         EntityManager em = getEntityManager();
         try {
@@ -100,6 +111,18 @@ public class UsuarioDAOImp implements DAO<Usuario> {
         } finally {
             em.close();
             
+        }
+    }
+    
+    public List<Usuario> getListaUsuarios() {
+        
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.correo <> 'admin@gmail.com'", Usuario.class);
+
+            return query.getResultList();
+        } finally {
+            em.close();
         }
     }
     
