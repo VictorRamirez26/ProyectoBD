@@ -241,8 +241,10 @@ public class Controlador {
     }
     
     public void eliminarRegistros(List<RegistroComida> listaRegistroComidas){
-        for (RegistroComida rc : listaRegistroComidas){
-            controladorPersistencia.eliminarRegistro(rc);
+        if (listaRegistroComidas != null){
+            for (RegistroComida rc : listaRegistroComidas){
+                controladorPersistencia.eliminarRegistro(rc);
+            }
         }
     }
     
